@@ -3,27 +3,28 @@
 #include<string>
 
 
-class Encode : protected std::fstream //inheriting fstream class in protected mode
+class Encode : protected std::fstream           //inheriting fstream class in protected mode
 {
 private:
-    std::string path;     //input text file path 
-    std::string output;  // output file path
+    std::string path;                            //input text file path 
+    std::string output;                          // output file path
 public:
     //default constructor
     Encode() :
         path(),
         output("output.txt"),
-        std::fstream()
+        std::fstream()                            // calling default constructor fstream class
     {
 
     }
-    //parametrized constructorn with 1 arguement
+
+    //parametrized constructor with 1 arguement
     Encode(const std::string& path) :
         path(path),
         output( "output.txt"),
-        std::fstream(path,std::ios::in)
+        std::fstream(path,std::ios::in)           // calling constructor fstream class
     {
-        if (!is_open())
+        if (!is_open())                           // is_open() method of fstream class
         {
             std::cout << "Error opening file!";
         }
@@ -33,9 +34,9 @@ public:
     Encode(const std::string& path,const std::string& output) :
         path(path),
         output(output),
-        std::fstream(path, std::ios::in)
+        std::fstream(path, std::ios::in)         // calling constructor fstream class
     {
-        if (!is_open())
+        if (!is_open())                          // is_open() method of fstream class
         {
             std::cout << "Error opening file!";
         }
@@ -44,23 +45,24 @@ public:
     //Destructor
     ~Encode()
     {
-        if (is_open())
+        if (is_open())                           // is_open() method of fstream class
         {
             this->close();
         }
     }
 
-    //overidden open function of fstream class
+    //overidden open function of fstream class with one arguement
     void open(const std::string& path)    
     {
         this->path = path;
-        std::fstream::open(path, std::ios::in);
-        if (!is_open())
+        std::fstream::open(path, std::ios::in);  //open() method of fstream class
+        if (!is_open())                          // is_open() method of fstream class
         {
             std::cout << "Error opening file!";
         }
     }
 
+    //overidden open function of fstream class with two arguement
     void open(const std::string& path,const std::string& output)
     {
         this->path = path;
@@ -95,7 +97,7 @@ public:
                 prev_ch = curr_ch;
                 get(curr_ch);
             }
-            fout << prev_ch << count;
+            fout << prev_ch << count; //ouput into file
             prev_ch = curr_ch;
             count = 1;
         }
@@ -118,9 +120,9 @@ public:
 
 int main()
 {
-    Encode e;
-    e.open("test.txt");
-    e.encode();
-    e.print();
+    Encode e;                             // creating instance of Encode 
+    e.open("test.txt");                   // calling overriden open() method 
+    e.encode();                           // calling method to encode text file
+    e.print();                            // printing encoded text file
     return 0;
 }
