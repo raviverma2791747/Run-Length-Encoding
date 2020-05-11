@@ -9,8 +9,20 @@ private:
     std::string path;                            //input text file path 
     std::string output;                          // output file path
 public:
-    //default constructor
-    Encode() :
+    Encode();                                                           //defualt constructor
+    Encode(const std::string& path);                                    //parametrized constructor with one arguement
+    Encode(const std::string& path,const std::string& output);          //parametrized constructor with two arguement
+    ~Encode();                                                          //destructor
+    //overidden open function of fstream class with one arguement
+    void open(const std::string& path);  
+    //overidden open function of fstream class with two arguement
+    void open(const std::string& path, const std::string& output);
+    void encode();                                                      //function to encode text file
+    void print();                                                       //display encoded text file
+};
+
+//default constructor
+Encode::Encode() :
         path(),
         output("output.txt"),
         std::fstream()                            // calling default constructor fstream class
@@ -18,8 +30,8 @@ public:
 
     }
 
-    //parametrized constructor with 1 arguement
-    Encode(const std::string& path) :
+//parametrized constructor with 1 arguement
+Encode:: Encode(const std::string& path) :
         path(path),
         output( "output.txt"),
         std::fstream(path,std::ios::in)           // calling constructor fstream class
@@ -30,8 +42,8 @@ public:
         }
     }
 
-    //parametrized constructor with 2 arguements
-    Encode(const std::string& path,const std::string& output) :
+//parametrized constructor with 2 arguements
+Encode::Encode(const std::string& path,const std::string& output) :
         path(path),
         output(output),
         std::fstream(path, std::ios::in)         // calling constructor fstream class
@@ -42,8 +54,8 @@ public:
         }
     }
 
-    //Destructor
-    ~Encode()
+//Destructor
+Encode::~Encode()
     {
         if (is_open())                           // is_open() method of fstream class
         {
@@ -51,8 +63,8 @@ public:
         }
     }
 
-    //overidden open function of fstream class with one arguement
-    void open(const std::string& path)    
+ //overidden open function of fstream class with one arguement
+void Encode::open(const std::string& path)
     {
         this->path = path;
         std::fstream::open(path, std::ios::in);  //open() method of fstream class
@@ -62,8 +74,8 @@ public:
         }
     }
 
-    //overidden open function of fstream class with two arguement
-    void open(const std::string& path,const std::string& output)
+//overidden open function of fstream class with two arguement
+void Encode::open(const std::string& path,const std::string& output)
     {
         this->path = path;
         this->output = output;
@@ -74,8 +86,8 @@ public:
         }
     }
 
-    //function to encode text file
-    void encode()
+//function to encode text file
+void Encode::encode()
     {
         if(!is_open())
         {
@@ -97,7 +109,7 @@ public:
                 prev_ch = curr_ch;
                 get(curr_ch);
             }
-            fout << prev_ch << count; //ouput into file
+            fout << prev_ch << count;                 //ouput into file
             prev_ch = curr_ch;
             count = 1;
         }
@@ -105,8 +117,8 @@ public:
         fout.close();
     }
 
-    //display encoded text file
-    void print() 
+//display encoded text file
+void Encode::print()
     {
         std::ifstream fin(output,std::ios::in);
         char ch;
@@ -116,10 +128,11 @@ public:
         }
         fin.close();
     }
-};
+
 
 int main()
 {
+    //test.txt contains string "abbcccddddeeeeeffffffggggggg"
     Encode e;                             // creating instance of Encode 
     e.open("test.txt");                   // calling overriden open() method 
     e.encode();                           // calling method to encode text file
